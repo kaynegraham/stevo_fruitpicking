@@ -1,7 +1,11 @@
 return {
-    interaction = 'textui', -- 'textui' 'target'
+    
+    interaction = 'target', -- 'textui' 'target'
+    
     progressCircle = true, -- If lib progressCircle should be used instead of progressBar
+    
     moneyItem = 'money',
+    
     types = {
         {   type = 'Apple',
             item = 'apple',
@@ -264,7 +268,7 @@ return {
         },  
         {   type = 'Strawberry',  
             item = 'strawberry',
-            pickChance = 1, -- Can use math.random(1, 5), amount you receive every time you pick
+            pickChance = math.random(1, 5), -- Can use math.random(1, 5), amount you receive every time you pick
             pickDuration = 3,
             viewDistance = 1.5,
             interactDistance = 1.5,
