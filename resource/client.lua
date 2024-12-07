@@ -85,12 +85,9 @@ local function pickFruit(type)
 end
 
 local function openBuyerMenu(buyer)
-    ClearPedTasksImmediately(buyerPed)
     Wait(100)
     PlayPedAmbientSpeechNative(buyerPed, "GENERIC_HI", "SPEECH_PARAMS_FORCE_NORMAL")
     
-   
-
     local buyerOptions = {}
     for item, itemInfo in pairsInOrder(buyer.items) do
         buyerOptions[#buyerOptions + 1] = {
@@ -121,7 +118,6 @@ local function openBuyerMenu(buyer)
                             stevo_lib.Notify((locale('notify.notenough')):format(itemInfo.label), 'error', 3000)
                         end
                         buyerOpen = false
-                        TaskStartScenarioInPlace(buyerPed, buyer.ped.scenario, 0, true)
                     end
 
                 },
@@ -136,7 +132,6 @@ local function openBuyerMenu(buyer)
                             stevo_lib.Notify((locale('notify.notenough')):format(itemInfo.label), 'error', 3000)
                         end
                         buyerOpen = false
-                        TaskStartScenarioInPlace(buyerPed, buyer.ped.scenario, 0, true)
                     end
                 }
             }
@@ -147,7 +142,6 @@ local function openBuyerMenu(buyer)
         title = locale('menu.buyer'),
         onExit = function()
             buyerOpen = false
-            TaskStartScenarioInPlace(buyerPed, buyer.ped.scenario, 0, true)
         end,
         options = buyerOptions
     })
@@ -223,7 +217,8 @@ local function initPoints()
     for i = 1, #config.fruitBuyers do 
         local buyer = config.fruitBuyers[i]
         local textUI = false
-
+        local buyerStand, buyerPed
+    
         createBlip(buyer)
         
         lib.points.new({
@@ -234,23 +229,25 @@ local function initPoints()
                     local model = buyer.stand.model
                     lib.requestModel(model)
                     buyerStand = CreateObject(model, buyer.stand.coords.x, buyer.stand.coords.y, buyer.stand.coords.z, false, false, false)
-                    SetEntityHeading(buyerStand, buyer.stand.coords.w)
-                    PlaceObjectOnGroundProperly(buyerStand)
-                    FreezeEntityPosition(buyerStand, true)
+                    if buyerStand then
+                        SetEntityHeading(buyerStand, buyer.stand.coords.w)
+                        PlaceObjectOnGroundProperly(buyerStand)
+                        FreezeEntityPosition(buyerStand, true)
+                    end
                 end
-
+    
                 local model = buyer.ped.model
-                lib.requestModel(model, 5000)
-                
+                lib.requestModel(model)
                 buyerPed = stevo_lib.createPed(model, buyer.ped.coords.x, buyer.ped.coords.y, buyer.ped.coords.z, buyer.ped.coords.w, false, true)
-                
-                SetModelAsNoLongerNeeded(buyerPed)
-                FreezeEntityPosition(buyerPed, true)
-                SetEntityInvincible(buyerPed, true)
-                SetBlockingOfNonTemporaryEvents(buyerPed, true)
-                TaskStartScenarioInPlace(buyerPed, buyer.ped.scenario, 0, true)
-
-                if not config.interaction == 'textui' then 
+                if buyerPed then
+                    SetModelAsNoLongerNeeded(buyerPed)
+                    FreezeEntityPosition(buyerPed, true)
+                    SetEntityInvincible(buyerPed, true)
+                    SetBlockingOfNonTemporaryEvents(buyerPed, true)
+                    TaskStartScenarioInPlace(buyerPed, buyer.ped.scenario, 0, true)
+                end
+    
+                if config.interaction ~= 'textui' then 
                     local options = {
                         options = {
                             {
@@ -259,42 +256,43 @@ local function initPoints()
                                 action = function() 
                                     openBuyerMenu(buyer) 
                                 end,
-                                icon =  buyer.targetIcon,
+                                icon = buyer.targetIcon,
                                 label = locale("target.buyer"),
                             }
                         },
                         distance = buyer.interactDistance,
                         rotation = 45
                     }
-                    stevo_lib.target.AddBoxZone('stevopickfruitbuyer'..i, vec3(3, 3, 3), options)  
+                    stevo_lib.target.AddBoxZone('stevopickfruitbuyer'..i, buyer.ped.coords, vec3(3, 3, 3), options)  
                 end
             end,
             onExit = function()
                 if DoesEntityExist(buyerStand) then 
                     DeleteEntity(buyerStand)
+                    buyerStand = nil
                 end
                 if DoesEntityExist(buyerPed) then 
                     DeleteEntity(buyerPed)
+                    buyerPed = nil
                 end
-                if not config.interaction == 'textui' then 
+                if config.interaction ~= 'textui' then 
                     stevo_lib.target.RemoveZone('stevopickfruitbuyer'..i)  
                 else
                     if textUI then 
                         lib.hideTextUI()
+                        textUI = false
                     end
                 end
             end,
             nearby = function(self)
-                if not config.interaction == 'textui' then return end
+                if config.interaction ~= 'textui' then return end
                 if self.currentDistance < buyer.interactDistance and not textUI and not buyerOpen then 
                     lib.showTextUI(locale('textui.buyer')) 
                     textUI = true
-                end
-                if self.currentDistance > buyer.interactDistance and textUI then 
+                elseif self.currentDistance > buyer.interactDistance and textUI then 
                     lib.hideTextUI()
                     textUI = false 
-                end
-                if self.currentDistance < buyer.interactDistance and IsControlJustPressed(0, 38) then
+                elseif self.currentDistance < buyer.interactDistance and IsControlJustPressed(0, 38) then
                     lib.hideTextUI()
                     textUI = false 
                     buyerOpen = true
