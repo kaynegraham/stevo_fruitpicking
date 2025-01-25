@@ -53,6 +53,10 @@ local function deleteBlips()
 end
 
 local function pickFruit(type)
+
+    if type.activeCooldown then 
+        return stevo_lib.Notify(locale('notify.cooldownActive'), 'error', 3000)
+    end
     
     if type.skillCheck then 
         Wait(500)
@@ -80,6 +84,13 @@ local function pickFruit(type)
         if config.interaction == 'textui' then
             lib.showTextUI(type.textLabel)
         end
+    end
+
+    if type.pickCooldown then 
+        type.activeCooldown = true
+        SetTimeout(type.pickCooldown, function()
+            type.activeCooldown = false
+        end)
     end
 
 end

@@ -44,14 +44,15 @@ lib.callback.register('stevo_fruitpicking:pickedFruit', function(source, type)
         end 
     end
 
-    stevo_lib.AddItem(source, type.item, type.pickChance)
+    local amount = type.pickChance.min and math.random(type.pickChance.min, type.pickChance.max) or type.pickChance
+    stevo_lib.AddItem(source, type.item, amount)
 
     lastPicked[source] = os.time()
 
     if config.debug then
         local name = GetPlayerName(source)
         local identifier = stevo_lib.GetIdentifier(source)
-        lib.print.info(('Added %s %s to %s (%s) via stevo_fruitpicking:pickedFruit'):format(type.pickChance, type.item, name, identifier))
+        lib.print.info(('Added %s %s to %s (%s) via stevo_fruitpicking:pickedFruit'):format(amount, type.item, name, identifier))
     end
 
     return true

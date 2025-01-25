@@ -5,7 +5,8 @@
         "picked" : "Cueillette réussie",
         "sold" : "Vous avez vendu votre %s pour $%s",
         "notenough" : "Vous n'en avez pas !",
-        "failedSkill" : "Vous n'avez pas réussi à cueillir !"
+        "failedSkill" : "Vous n'avez pas réussi à cueillir !",
+        "cooldownActive" : "Temps de recharge actif !"
     },
 
     "progress" : {

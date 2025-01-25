@@ -3,7 +3,8 @@
         "picked" : "Succesvol geplukt!",
         "sold" : "Je hebt je %s verkocht voor $%s",
         "notenough" : "Je hebt er geen!",
-        "failedSkill" : "Je bent niet geslaagd om iets te plukken!"
+        "failedSkill" : "Je bent niet geslaagd om iets te plukken!",
+        "cooldownActive" : "Cooldown actief!"
     },
 
     "progress" : {

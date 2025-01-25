@@ -5,7 +5,8 @@
         "picked" : "Korjamine oli edukas!",
         "sold" : "Sa müüsid %s summaga $%s",
         "notenough" : "Teil pole midagi!",
-        "failedSkill" : "Te ei ulatunud puuni!"
+        "failedSkill" : "Te ei ulatunud puuni!",
+        "cooldownActive" : "Laadimisaeg aktiivne!"
     },
 
     "progress" : {

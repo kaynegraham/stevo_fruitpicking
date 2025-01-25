@@ -9,7 +9,11 @@ return {
     types = {
         {   type = 'Apple',
             item = 'apple',
-            pickChance = 1, -- Can use math.random(1, 5), amount you receive every time you pick
+            pickCooldown = 5, -- Cooldown between picking in seconds, set to false for no cooldown
+            pickChance = { -- The amount of something you have a chance of picking. Set max to 1 for one at a time
+                min = 1,
+                max = 3
+            },
             pickDuration = 3,
             viewDistance = 2.5,
             interactDistance = 2.5,
@@ -59,7 +63,10 @@ return {
         },
         {   type = 'Orange',
             item = 'orange',
-            pickChance = 1, -- Can use math.random(1, 5), amount you receive every time you pick
+            pickChance = { -- The amount of something you have a chance of picking. Set max to 1 for one at a time
+                min = 1,
+                max = 3
+            },
             pickDuration = 3,
             viewDistance = 2.5,
             interactDistance = 2.5,
@@ -115,7 +122,10 @@ return {
         },
         {   type = 'Pineapple',
             item = 'pineapple',
-            pickChance = 1, -- Can use math.random(1, 5), amount you receive every time you pick
+            pickChance = { -- The amount of something you have a chance of picking. Set max to 1 for one at a time
+                min = 1,
+                max = 3
+            },
             pickDuration = 3,
             viewDistance = 2.5,
             interactDistance = 2.5,
@@ -153,7 +163,10 @@ return {
         },
         {   type = 'Potato',
             item = 'potato',
-            pickChance = 1, -- Can use math.random(1, 5), amount you receive every time you pick
+            pickChance = { -- The amount of something you have a chance of picking. Set max to 1 for one at a time
+                min = 1,
+                max = 3
+            },
             pickDuration = 3,
             viewDistance = 10,
             interactDistance = 2.5,
@@ -194,7 +207,10 @@ return {
         },
         {   type = 'Tomato', 
             item = 'tomato',
-            pickChance = 1, -- Can use math.random(1, 5), amount you receive every time you pick
+            pickChance = { -- The amount of something you have a chance of picking. Set max to 1 for one at a time
+                min = 1,
+                max = 3
+            },
             pickDuration = 3,
             viewDistance = 1.5,
             interactDistance = 1.5,
@@ -229,7 +245,10 @@ return {
         },
         {   type = 'Pumpkin',  
             item = 'pumpkin',
-            pickChance = 1, -- Can use math.random(1, 5), amount you receive every time you pick
+            pickChance = { -- The amount of something you have a chance of picking. Set max to 1 for one at a time
+                min = 1,
+                max = 3
+            },
             pickDuration = 3,
             viewDistance = 1.5,
             interactDistance = 1.5,

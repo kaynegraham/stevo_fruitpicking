@@ -5,7 +5,8 @@
         "picked" : "Successfully picked!",
         "sold" : "You sold your %s for $%s",
         "notenough" : "You do not have any!",
-        "failedSkill" : "You failed to pick anything!"
+        "failedSkill" : "You failed to pick anything!",
+        "cooldownActive" : "Cooldown active!"
     },
 
     "progress" : {
